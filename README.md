@@ -1,6 +1,6 @@
 # Favignana Top Spot
 
-![Version](https://img.shields.io/badge/version-2.0.5-blue.svg)
+![Version](https://img.shields.io/badge/version-3.0.1-blue.svg)
 ![Flutter](https://img.shields.io/badge/Flutter-3.0+-02569B.svg?logo=flutter)
 ![Platform](https://img.shields.io/badge/platform-Android%20%7C%20iOS-lightgrey.svg)
 
@@ -48,8 +48,10 @@ Ogni spiaggia viene classificata con un sistema a semaforo:
 
 ### 5. Localizzazione
 
-- Supporto multilingua: Italiano (default) e Inglese
+- Supporto multilingua: Italiano, Inglese, Francese e Tedesco
 - Rilevamento automatico della lingua del dispositivo
+- Fallback automatico su Inglese se la lingua del telefono non è tra quelle supportate
+- Menu in alto a destra per cambiare lingua e aprire la privacy direttamente dall'app
 
 ### 6. Sistema Pubblicitario
 
@@ -65,7 +67,7 @@ Ogni spiaggia viene classificata con un sistema a semaforo:
 lib/
 ├── main.dart                 # Entry point
 ├── l10n/
-│   └── app_translations.dart # Stringhe multilingua IT/EN
+│   └── app_translations.dart # Stringhe multilingua IT/EN/FR/DE
 ├── models/
 │   ├── beach.dart            # Modello spiaggia + dati statici
 │   └── ad.dart               # Modello pubblicità
@@ -358,7 +360,20 @@ Uso:
 
 ## Versione
 
-**Versione attuale:** 2.0.5
+**Versione attuale:** 3.0.1
+
+## Localizzazione
+
+L'app usa un sistema i18n interno basato su `AppTranslations`.
+
+- Lingue disponibili: Italiano, Inglese, Francese, Tedesco
+- La lingua viene scelta automaticamente in base a quella del dispositivo
+- Se la lingua del dispositivo non è supportata, l'app mostra l'Inglese
+- Dal menu in alto a destra puoi aprire la selezione lingua senza uscire dalla home
+
+## Contatti
+
+Email progetto: [favignanatopspot@gmail.com](mailto:favignanatopspot@gmail.com)
 
 ---
 
