@@ -1,6 +1,6 @@
 # Favignana Top Spot
 
-![Version](https://img.shields.io/badge/version-3.1.1-blue.svg)
+![Version](https://img.shields.io/badge/version-3.1.2-blue.svg)
 ![Flutter](https://img.shields.io/badge/Flutter-3.0+-02569B.svg?logo=flutter)
 ![Platform](https://img.shields.io/badge/platform-Android%20%7C%20iOS-lightgrey.svg)
 
@@ -113,11 +113,12 @@ lib/
 L'algoritmo in `wind_logic.dart` determina lo stato di ogni spiaggia:
 
 ```dart
-// Vento debole (< 10 km/h) = sempre VERDE
+// Vento debole (<= 6 km/h) = sempre VERDE
 // Altrimenti:
-// - Vento da TERRA (opposto all'esposizione) = VERDE
-// - Vento LATERALE = GIALLO  
-// - Vento FRONTALE (uguale all'esposizione) = ROSSO
+// - Vento da TERRA (offshore > 130°) = VERDE fino a 28 km/h, GIALLO fino a 35 km/h
+// - Vento LATERALE/FRONTALE (<= 130°) = GIALLO fino a 18 km/h, ROSSO oltre
+// - Tetto ordinario: sopra 38 km/h sempre ROSSO
+// - Cala Azzurra con N/NW/W: VERDE fino a 28 km/h, GIALLO fino a 40 km/h
 ```
 
 ### Rosa dei Venti Italiana
@@ -360,7 +361,7 @@ Uso:
 
 ## Versione
 
-**Versione attuale:** 3.1.1
+**Versione attuale:** 3.1.2
 
 ## Localizzazione
 
