@@ -1,6 +1,6 @@
 # Favignana Top Spot
 
-![Version](https://img.shields.io/badge/version-3.1.2-blue.svg)
+![Version](https://img.shields.io/badge/version-3.2.0%2B1-blue.svg)
 ![Flutter](https://img.shields.io/badge/Flutter-3.0+-02569B.svg?logo=flutter)
 ![Platform](https://img.shields.io/badge/platform-Android%20%7C%20iOS-lightgrey.svg)
 
@@ -15,7 +15,7 @@ Favignana Top Spot è un'applicazione Flutter che aiuta i turisti e i residenti 
 ### 1. Analisi Meteo in Tempo Reale e Previsioni
 
 - Recupero dati meteo dall'API Open-Meteo
-- Aggiornamento automatico ogni 30 minuti
+- Controllo automatico ogni 30 minuti, con cache locale per evitare chiamate inutili
 - Visualizzazione velocità e direzione del vento, temperatura e umidità
 - Nomenclatura tradizionale italiana dei venti (Tramontana, Grecale, Levante, ecc.)
 - **Sistema di Previsione**: possibilità di selezionare e visualizzare le condizioni meteo per l'ora corrente ("ORA"), tra 6 ore ("6 ORE") e tra 24 ore ("24 ORE").
@@ -45,6 +45,7 @@ Ogni spiaggia viene classificata con un sistema a semaforo:
 
 - Bottone "Portami qui" su ogni scheda spiaggia
 - Apertura automatica di Google Maps con destinazione
+- Schede spiaggia con grado di accessibilità turistico: facile, moderato o difficile
 
 ### 5. Localizzazione
 
@@ -88,23 +89,23 @@ lib/
 
 ## Le 15 Spiagge di Favignana
 
-| # | Nome | Esposizione | Coordinate GPS |
-|---|------|-------------|----------------|
-| 1 | Cala Rossa | NE | 37.922464, 12.363907 |
-| 2 | Cala San Nicola | NE | 37.935022, 12.346703 |
-| 3 | Scalo Cavallo | NE | 37.930894, 12.349999 |
-| 4 | Bue Marino | E | 37.917222, 12.369920 |
-| 5 | Cala Azzurra | S | 37.908715, 12.361280 |
-| 6 | Punta Marsala | SE | 37.907304, 12.366618 |
-| 7 | Lido Burrone | S | 37.918272, 12.338202 |
-| 8 | Cala Preveto | S | 37.918953, 12.302630 |
-| 9 | Spiaggia Praia | N | 37.929608, 12.325196 |
-| 10 | Cala Faraglioni | N | 37.954491, 12.306777 |
-| 11 | Cala Trapanese | N | 37.953404, 12.308071 |
-| 12 | Cala del Pozzo | NW | 37.942171, 12.287885 |
-| 13 | Cala Rotonda | W | 37.923715, 12.284060 |
-| 14 | Cala Grande | W | 37.931035, 12.279523 |
-| 15 | Spiaggia di Ponente | W | 37.935384, 12.276704 |
+| # | Nome | Esposizione tecnica | Accessibilità | Coordinate GPS |
+|---|------|---------------------|---------------|----------------|
+| 1 | Cala Rossa | NE | Difficile | 37.922464, 12.363907 |
+| 2 | Cala San Nicola | NE | Facile | 37.935022, 12.346703 |
+| 3 | Scalo Cavallo | NE | Difficile | 37.930894, 12.349999 |
+| 4 | Bue Marino | E | Difficile | 37.917222, 12.369920 |
+| 5 | Cala Azzurra | S | Facile | 37.908715, 12.361280 |
+| 6 | Punta Marsala | SE | Moderato | 37.907304, 12.366618 |
+| 7 | Lido Burrone | S | Facile | 37.918272, 12.338202 |
+| 8 | Cala Preveto | S | Difficile | 37.918953, 12.302630 |
+| 9 | Spiaggia Praia | N | Facile | 37.929608, 12.325196 |
+| 10 | Cala Faraglioni | N | Moderato | 37.954491, 12.306777 |
+| 11 | Cala Trapanese | N | Difficile | 37.953404, 12.308071 |
+| 12 | Cala del Pozzo | NW | Facile | 37.942171, 12.287885 |
+| 13 | Cala Rotonda | W | Facile | 37.923715, 12.284060 |
+| 14 | Cala Grande | W | Facile | 37.931035, 12.279523 |
+| 15 | Spiaggia di Ponente | W | Facile | 37.935384, 12.276704 |
 
 ---
 
@@ -118,7 +119,12 @@ L'algoritmo in `wind_logic.dart` determina lo stato di ogni spiaggia:
 // - Vento da TERRA (offshore > 130°) = VERDE fino a 28 km/h, GIALLO fino a 35 km/h
 // - Vento LATERALE/FRONTALE (<= 130°) = GIALLO fino a 18 km/h, ROSSO oltre
 // - Tetto ordinario: sopra 38 km/h sempre ROSSO
-// - Cala Azzurra con N/NW/W: VERDE fino a 28 km/h, GIALLO fino a 40 km/h
+// - South Shelter (Cala Azzurra, Lido Burrone):
+//   N/NW/W = VERDE fino a 28 km/h, GIALLO fino a 40 km/h
+//   E/SE/S/SW = GIALLO fino a 25 km/h
+// - North Shelter (Spiaggia Praia):
+//   S/SE/SW = VERDE fino a 28 km/h, GIALLO fino a 40 km/h
+//   N/NE/NW = GIALLO fino a 25 km/h
 ```
 
 ### Rosa dei Venti Italiana
@@ -223,7 +229,8 @@ Se il caricamento del JSON fallisce (rete assente, timeout, errore):
 
 - L'app mostra un banner di fallback predefinito
 - Nessun crash o errore visibile all'utente
-- Timeout: 15 secondi
+- Timeout: 10 secondi
+- Il JSON remoto viene ricaricato solo al primo controllo, al cambio fascia oraria o dopo 6 ore
 
 ### Come Aggiornare i Banner
 
@@ -240,7 +247,7 @@ Se il caricamento del JSON fallisce (rete assente, timeout, errore):
    - I banner si aggiorneranno automaticamente nelle app
 
 4. **Test**
-   - Riavvia l'app per forzare il caricamento
+   - Per un controllo immediato, cancella i dati dell'app oppure attendi il cambio fascia oraria o il controllo dopo 6 ore
    - Verifica che le immagini si carichino correttamente
    - Testa il tap per verificare i link
 
@@ -254,15 +261,39 @@ Endpoint utilizzato:
 
 ```text
 https://api.open-meteo.com/v1/forecast
-  ?latitude=37.9284
-  &longitude=12.3267
+  ?latitude=37.9300
+  &longitude=12.3270
   &current_weather=true
+  &forecast_hours=26
 ```
 
 Dati utilizzati:
 
 - `windspeed` (km/h)
 - `winddirection` (gradi, 0-360)
+- `temperature_2m`
+- `relative_humidity_2m`
+
+### Fallback Meteo
+
+Se Open-Meteo non risponde per rete mobile debole, timeout o errore temporaneo:
+
+- l'app effettua un solo tentativo con timeout di 10 secondi;
+- se esistono dati meteo salvati in locale o gia caricati nella sessione, li riutilizza come cache e li marca come non aggiornati;
+- se non esiste cache, usa dati neutri solo per mantenere la UI operativa e mostrare l'avviso;
+- in entrambi i casi la Home mostra un avviso professionale sotto la mappa e il badge diventa "Meteo non aggiornato".
+
+I colori degli spot in fallback sono quindi indicativi e non devono essere letti come dato meteo live.
+
+### Ottimizzazione Chiamate API
+
+Per ridurre chiamate e consumo batteria:
+
+- i dati meteo vengono salvati in cache locale persistente con `shared_preferences`;
+- apertura app, timer e ritorno in primo piano usano la cache se l'ultima lettura meteo scaricata ha meno di 45 minuti;
+- il pulsante refresh manuale e' silenziosamente limitato: chiama davvero Open-Meteo solo se la cache ha piu di 15 minuti e comunque non piu di 2 volte in 1 ora per dispositivo;
+- i banner remoti vengono salvati in cache locale e ricontrollati solo al primo controllo, al cambio fascia oraria o dopo 6 ore;
+- meteo e banner sono caricati da servizi separati: un errore dei banner non blocca il calcolo degli spot.
 
 ---
 
@@ -270,7 +301,7 @@ Dati utilizzati:
 
 - **Flutter SDK**: >= 3.0.0 < 4.0.0
 - **Dart SDK**: >= 3.0.0
-- **Android**: API 21+ (Android 5.0)
+- **Android**: API 24+ (Android 7.0 Nougat)
 - **iOS**: 12.0+
 
 ## Dipendenze
@@ -281,6 +312,7 @@ dependencies:
   http: ^1.1.0           # Networking
   url_launcher: ^6.2.0   # Apertura Google Maps
   cached_network_image: ^3.3.0  # Cache immagini
+  shared_preferences: ^2.2.3    # Cache locale persistente
   intl: any              # Internazionalizzazione
 ```
 
@@ -361,7 +393,7 @@ Uso:
 
 ## Versione
 
-**Versione attuale:** 3.1.2
+**Versione attuale:** 3.2.0+1
 
 ## Localizzazione
 
