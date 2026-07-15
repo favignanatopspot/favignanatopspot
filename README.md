@@ -210,11 +210,14 @@ Il file deve avere questa struttura:
 | Valore | Orario | Uso tipico |
 |--------|--------|------------|
 | `ALL_DAY` | 00:00-24:00 | Banner sempre visibile |
-| `MORNING` | 06:00-11:00 | Colazioni, escursioni mattutine |
-| `LUNCH` | 11:00-15:00 | Ristoranti, bar |
-| `DINNER` | 19:00-24:00 | Ristoranti, vita notturna |
+| `MORNING` | 06:00-11:30 | Colazioni, escursioni mattutine |
+| `LUNCH` | 11:00-15:00 | Pranzi, stabilimenti |
+| `AFTERNOON` | 15:00-19:00 | Aperitivi, noleggi, relax |
+| `DINNER` | 19:00-24:00 | Cene, eventi serali |
 
 È possibile combinare più fasce: `["MORNING", "LUNCH"]`
+
+Nota: `MORNING` e `LUNCH` si sovrappongono tra le 11:00 e le 11:30. Se due banner dello stesso tipo sono validi nello stesso momento, viene mostrato il primo che compare nel JSON.
 
 ### Dimensioni Immagini Consigliate
 
