@@ -1,6 +1,6 @@
 # Favignana Top Spot
 
-![Version](https://img.shields.io/badge/version-3.2.0%2B1-blue.svg)
+![Version](https://img.shields.io/badge/version-3.3.0%2B4-blue.svg)
 ![Flutter](https://img.shields.io/badge/Flutter-3.0+-02569B.svg?logo=flutter)
 ![Platform](https://img.shields.io/badge/platform-Android%20%7C%20iOS-lightgrey.svg)
 
@@ -49,7 +49,7 @@ Ogni spiaggia viene classificata con un sistema a semaforo:
 
 ### 5. Localizzazione
 
-- Supporto multilingua: Italiano, Inglese, Francese e Tedesco
+- Supporto multilingua: Italiano, Inglese, Spagnolo, Francese e Tedesco
 - Rilevamento automatico della lingua del dispositivo
 - Fallback automatico su Inglese se la lingua del telefono non è tra quelle supportate
 - Menu in alto a destra per cambiare lingua e aprire la privacy direttamente dall'app
@@ -68,7 +68,7 @@ Ogni spiaggia viene classificata con un sistema a semaforo:
 lib/
 ├── main.dart                 # Entry point
 ├── l10n/
-│   └── app_translations.dart # Stringhe multilingua IT/EN/FR/DE
+│   └── app_translations.dart # Stringhe multilingua IT/EN/ES/FR/DE
 ├── models/
 │   ├── beach.dart            # Modello spiaggia + dati statici
 │   └── ad.dart               # Modello pubblicità
@@ -96,15 +96,15 @@ lib/
 | 3 | Scalo Cavallo | NE | Difficile | 37.930894, 12.349999 |
 | 4 | Bue Marino | E | Difficile | 37.917222, 12.369920 |
 | 5 | Cala Azzurra | S | Facile | 37.908715, 12.361280 |
-| 6 | Punta Marsala | SE | Moderato | 37.907304, 12.366618 |
-| 7 | Lido Burrone | S | Facile | 37.918272, 12.338202 |
+| 6 | Punta Marsala | SE | Moderato | 37.907444, 12.366500 |
+| 7 | Lido Burrone | S | Facile | 37.919028, 12.338167 |
 | 8 | Cala Preveto | S | Difficile | 37.918953, 12.302630 |
 | 9 | Spiaggia Praia | N | Facile | 37.929608, 12.325196 |
 | 10 | Cala Faraglioni | N | Moderato | 37.954491, 12.306777 |
 | 11 | Cala Trapanese | N | Difficile | 37.953404, 12.308071 |
 | 12 | Cala del Pozzo | NW | Facile | 37.942171, 12.287885 |
 | 13 | Cala Rotonda | W | Facile | 37.923715, 12.284060 |
-| 14 | Cala Grande | W | Facile | 37.931035, 12.279523 |
+| 14 | Cala Grande | W | Facile | 37.930833, 12.280389 |
 | 15 | Spiaggia di Ponente | W | Facile | 37.935384, 12.276704 |
 
 ---
@@ -224,14 +224,15 @@ Il file deve avere questa struttura:
 | STICKY_BOTTOM | 600px | 100px | 6:1 |
 | NATIVE | 640px | 360px | 16:9 |
 
-### Comportamento Fallback
+### Comportamento in Caso di Errore
 
 Se il caricamento del JSON fallisce (rete assente, timeout, errore):
 
-- L'app mostra un banner di fallback predefinito
+- L'app non mostra alcun banner e non occupa spazio vuoto nella UI
 - Nessun crash o errore visibile all'utente
 - Timeout: 10 secondi
 - Il JSON remoto viene ricaricato solo al primo controllo, al cambio fascia oraria o dopo 6 ore
+- Se l'immagine di un banner non viene caricata, il relativo widget resta invisibile
 
 ### Come Aggiornare i Banner
 
@@ -394,13 +395,13 @@ Uso:
 
 ## Versione
 
-**Versione attuale:** 3.2.0+1
+**Versione attuale:** 3.3.0+4
 
 ## Localizzazione
 
 L'app usa un sistema i18n interno basato su `AppTranslations`.
 
-- Lingue disponibili: Italiano, Inglese, Francese, Tedesco
+- Lingue disponibili: Italiano, Inglese, Spagnolo, Francese, Tedesco
 - La lingua viene scelta automaticamente in base a quella del dispositivo
 - Se la lingua del dispositivo non è supportata, l'app mostra l'Inglese
 - Dal menu in alto a destra puoi aprire la selezione lingua senza uscire dalla home
