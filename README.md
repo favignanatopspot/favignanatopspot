@@ -1,6 +1,6 @@
 # Favignana Top Spot
 
-![Version](https://img.shields.io/badge/version-3.3.0%2B4-blue.svg)
+![Version](https://img.shields.io/badge/version-3.4.1%2B6-blue.svg)
 ![Flutter](https://img.shields.io/badge/Flutter-3.0+-02569B.svg?logo=flutter)
 ![Platform](https://img.shields.io/badge/platform-Android%20%7C%20iOS-lightgrey.svg)
 
@@ -14,8 +14,8 @@ Favignana Top Spot è un'applicazione Flutter che aiuta i turisti e i residenti 
 
 ### 1. Analisi Meteo in Tempo Reale e Previsioni
 
-- Recupero dati meteo dall'API Open-Meteo
-- Controllo automatico ogni 30 minuti, con cache locale per evitare chiamate inutili
+- Aggiornamento delle condizioni meteo con cache locale
+- Controllo automatico ogni 30 minuti, con riutilizzo dei dati recenti
 - Visualizzazione velocità e direzione del vento, temperatura e umidità
 - Nomenclatura tradizionale italiana dei venti (Tramontana, Grecale, Levante, ecc.)
 - **Sistema di Previsione**: possibilità di selezionare e visualizzare le condizioni meteo per l'ora corrente ("ORA"), tra 6 ore ("6 ORE") e tra 24 ore ("24 ORE").
@@ -34,17 +34,17 @@ Ogni spiaggia viene classificata con un sistema a semaforo:
 
 ### 3. Mappa Interattiva
 
-- Visualizzazione di tutte le 15 spiagge sulla mappa dell'isola
+- Visualizzazione di tutti i 17 spot sulla mappa dell'isola
 - Marker colorati in base allo stato del mare
 - Animazione delle particelle del vento
 - **Zoom**: bottone in basso a sinistra per ingrandire la mappa 2x
 - **Pan**: quando zoommato, trascina per navigare
-- **Tap sugli spot**: tocca un marker per scorrere alla scheda corrispondente
+- **Tap sugli spot**: tocca un marker per portare in evidenza la scheda corrispondente, con centratura adattiva e cornice pulsante
 
 ### 4. Navigazione GPS
 
 - Bottone "Portami qui" su ogni scheda spiaggia
-- Apertura automatica di Google Maps con destinazione
+- Apertura di Google Maps con un segnaposto GPS, senza avvio automatico del percorso
 - Schede spiaggia con grado di accessibilità turistico: facile, moderato o difficile
 
 ### 5. Localizzazione
@@ -73,7 +73,7 @@ lib/
 │   ├── beach.dart            # Modello spiaggia + dati statici
 │   └── ad.dart               # Modello pubblicità
 ├── services/
-│   ├── weather_service.dart  # API Open-Meteo
+│   ├── weather_service.dart  # Gestione dati meteo e cache
 │   └── ad_service.dart       # Caricamento banner da Google Drive
 ├── utils/
 │   └── wind_logic.dart       # Algoritmo calcolo stato spiagge
@@ -87,7 +87,7 @@ lib/
 
 ---
 
-## Le 15 Spiagge di Favignana
+## I 17 Spot di Favignana
 
 | # | Nome | Esposizione tecnica | Accessibilità | Coordinate GPS |
 |---|------|---------------------|---------------|----------------|
@@ -98,14 +98,16 @@ lib/
 | 5 | Cala Azzurra | S | Facile | 37.908715, 12.361280 |
 | 6 | Punta Marsala | SE | Moderato | 37.907444, 12.366500 |
 | 7 | Lido Burrone | S | Facile | 37.919028, 12.338167 |
-| 8 | Cala Preveto | S | Difficile | 37.918953, 12.302630 |
-| 9 | Spiaggia Praia | N | Facile | 37.929608, 12.325196 |
-| 10 | Cala Faraglioni | N | Moderato | 37.954491, 12.306777 |
-| 11 | Cala Trapanese | N | Difficile | 37.953404, 12.308071 |
-| 12 | Cala del Pozzo | NW | Facile | 37.942171, 12.287885 |
-| 13 | Cala Rotonda | W | Facile | 37.923715, 12.284060 |
-| 14 | Cala Grande | W | Facile | 37.930833, 12.280389 |
-| 15 | Spiaggia di Ponente | W | Facile | 37.935384, 12.276704 |
+| 8 | Grotta Perciata | S | Moderato | 37.913322, 12.346139 |
+| 9 | Spiaggia Marasolo | S | Moderato | 37.919326, 12.320892 |
+| 10 | Cala Preveto | S | Difficile | 37.918953, 12.302630 |
+| 11 | Spiaggia Praia | N | Facile | 37.929608, 12.325196 |
+| 12 | Cala Faraglioni | N | Moderato | 37.954491, 12.306777 |
+| 13 | Cala Trapanese | N | Difficile | 37.953404, 12.308071 |
+| 14 | Cala del Pozzo | NW | Facile | 37.942171, 12.287885 |
+| 15 | Cala Rotonda | W | Facile | 37.923715, 12.284060 |
+| 16 | Cala Grande | W | Facile | 37.930833, 12.280389 |
+| 17 | Punta Sottile | W | Moderato | 37.935420, 12.273359 |
 
 ---
 
@@ -119,12 +121,15 @@ L'algoritmo in `wind_logic.dart` determina lo stato di ogni spiaggia:
 // - Vento da TERRA (offshore > 130°) = VERDE fino a 28 km/h, GIALLO fino a 35 km/h
 // - Vento LATERALE/FRONTALE (<= 130°) = GIALLO fino a 18 km/h, ROSSO oltre
 // - Tetto ordinario: sopra 38 km/h sempre ROSSO
-// - South Shelter (Cala Azzurra, Lido Burrone):
+// - South Shelter (Cala Azzurra, Lido Burrone, Grotta Perciata, Spiaggia Marasolo):
 //   N/NW/W = VERDE fino a 28 km/h, GIALLO fino a 40 km/h
 //   E/SE/S/SW = GIALLO fino a 25 km/h
 // - North Shelter (Spiaggia Praia):
 //   S/SE/SW = VERDE fino a 28 km/h, GIALLO fino a 40 km/h
-//   N/NE/NW = GIALLO fino a 25 km/h
+//   N/NE/NW = VERDE fino a 18 km/h, GIALLO fino a 28 km/h
+// - West Shelter (Cala Grande, Cala Rotonda, Punta Sottile):
+//   E/SE/NE/N = VERDE fino a 28 km/h, GIALLO fino a 40 km/h
+//   W/NW/SW/S = VERDE fino a 15 km/h, GIALLO fino a 25 km/h
 ```
 
 ### Rosa dei Venti Italiana
@@ -153,7 +158,7 @@ L'app supporta banner pubblicitari dinamici caricati da un file JSON ospitato su
 Il file JSON è scaricato da:
 
 ```text
-https://drive.google.com/uc?export=download&id=1pav7QBy4-EFbxP_Q_2h3W1jJq2Ra6T0Z
+https://********
 ```
 
 Per cambiare il file:
@@ -255,21 +260,9 @@ Se il caricamento del JSON fallisce (rete assente, timeout, errore):
 
 ---
 
-## API Meteo
+## Gestione Dati Meteo
 
-### Open-Meteo (Gratuita, senza API key)
-
-Endpoint utilizzato:
-
-```text
-https://api.open-meteo.com/v1/forecast
-  ?latitude=37.9300
-  &longitude=12.3270
-  &current_weather=true
-  &forecast_hours=26
-```
-
-Dati utilizzati:
+### Dati utilizzati
 
 - `windspeed` (km/h)
 - `winddirection` (gradi, 0-360)
@@ -278,7 +271,7 @@ Dati utilizzati:
 
 ### Fallback Meteo
 
-Se Open-Meteo non risponde per rete mobile debole, timeout o errore temporaneo:
+Se l'aggiornamento non è disponibile per rete mobile debole, timeout o errore temporaneo:
 
 - l'app effettua un solo tentativo con timeout di 10 secondi;
 - se esistono dati meteo salvati in locale o gia caricati nella sessione, li riutilizza come cache e li marca come non aggiornati;
@@ -287,13 +280,13 @@ Se Open-Meteo non risponde per rete mobile debole, timeout o errore temporaneo:
 
 I colori degli spot in fallback sono quindi indicativi e non devono essere letti come dato meteo live.
 
-### Ottimizzazione Chiamate API
+### Ottimizzazione degli aggiornamenti
 
-Per ridurre chiamate e consumo batteria:
+Per ridurre trasferimenti, tempi di attesa e consumo batteria:
 
 - i dati meteo vengono salvati in cache locale persistente con `shared_preferences`;
 - apertura app, timer e ritorno in primo piano usano la cache se l'ultima lettura meteo scaricata ha meno di 45 minuti;
-- il pulsante refresh manuale e' silenziosamente limitato: chiama davvero Open-Meteo solo se la cache ha piu di 15 minuti e comunque non piu di 2 volte in 1 ora per dispositivo;
+- il pulsante refresh manuale avvia una sincronizzazione effettiva solo se la cache ha più di 15 minuti e comunque non più di 2 volte in 1 ora per dispositivo;
 - i banner remoti vengono salvati in cache locale e ricontrollati solo al primo controllo, al cambio fascia oraria o dopo 6 ore;
 - meteo e banner sono caricati da servizi separati: un errore dei banner non blocca il calcolo degli spot.
 
@@ -360,14 +353,16 @@ Posizione: `assets/spot/`
 | `cala_azzurra.jpeg` | Cala Azzurra |
 | `punta_marsala.jpg` | Punta Marsala |
 | `lido_burrone.jpg` | Lido Burrone |
+| `grotta_perciata.jpg` | Grotta Perciata |
+| `spiaggia_marasolo.jpg` | Spiaggia Marasolo |
 | `cala_preveto.jpg` | Cala Preveto |
 | `spiaggia_praia.jpeg` | Spiaggia Praia |
 | `cala_faraglioni.jpg` | Cala Faraglioni |
 | `cala_trapanese.jpg` | Cala Trapanese |
 | `cala_del_pozzo.jpg` | Cala del Pozzo |
-| `cala_rotonda.jpeg` | Cala Rotonda |
+| `cala_rotonda_new.jpg` | Cala Rotonda |
 | `cala_grande.jpg` | Cala Grande |
-| `spiaggia_di_ponente.jpg` | Spiaggia di Ponente |
+| `punta_sottile.jpg` | Punta Sottile |
 
 ### Mappa
 
@@ -395,7 +390,7 @@ Uso:
 
 ## Versione
 
-**Versione attuale:** 3.3.0+4
+**Versione attuale:** 3.4.1+6
 
 ## Localizzazione
 
