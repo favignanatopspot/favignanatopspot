@@ -1,6 +1,6 @@
 # Favignana Top Spot
 
-![Version](https://img.shields.io/badge/version-3.4.1%2B6-blue.svg)
+![Version](https://img.shields.io/badge/version-3.5.1%2B6-blue.svg)
 ![Flutter](https://img.shields.io/badge/Flutter-3.0+-02569B.svg?logo=flutter)
 ![Platform](https://img.shields.io/badge/platform-Android%20%7C%20iOS-lightgrey.svg)
 
@@ -39,7 +39,8 @@ Ogni spiaggia viene classificata con un sistema a semaforo:
 - Animazione delle particelle del vento
 - **Zoom**: bottone in basso a sinistra per ingrandire la mappa 2x
 - **Pan**: quando zoommato, trascina per navigare
-- **Tap sugli spot**: tocca un marker per portare in evidenza la scheda corrispondente, con centratura adattiva e cornice pulsante
+- **Tap sugli spot**: tocca un marker per portare in evidenza la scheda corrispondente, con centratura adattiva e cornice pulsante rinforzata, sovrapposta al perimetro senza modificare le dimensioni della card
+- **Condivisione spot**: ogni card può generare un messaggio localizzato con stato attuale, vento, accessibilità e segnaposto Google Maps tramite il foglio di condivisione del dispositivo
 
 ### 4. Navigazione GPS
 
@@ -306,6 +307,7 @@ dependencies:
   flutter_localizations: sdk
   http: ^1.1.0           # Networking
   url_launcher: ^6.2.0   # Apertura Google Maps
+  share_plus: ^10.1.4    # Foglio di condivisione di sistema
   cached_network_image: ^3.3.0  # Cache immagini
   shared_preferences: ^2.2.3    # Cache locale persistente
   intl: any              # Internazionalizzazione
@@ -390,7 +392,7 @@ Uso:
 
 ## Versione
 
-**Versione attuale:** 3.4.1+6
+**Versione attuale:** 3.5.1+6
 
 ## Localizzazione
 
