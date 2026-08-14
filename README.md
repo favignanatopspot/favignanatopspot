@@ -1,6 +1,6 @@
 # Favignana Top Spot
 
-![Version](https://img.shields.io/badge/version-3.5.1%2B6-blue.svg)
+![Version](https://img.shields.io/badge/version-3.5.2%2B6-blue.svg)
 ![Flutter](https://img.shields.io/badge/Flutter-3.0+-02569B.svg?logo=flutter)
 ![Platform](https://img.shields.io/badge/platform-Android%20%7C%20iOS-lightgrey.svg)
 
@@ -53,7 +53,8 @@ Ogni spiaggia viene classificata con un sistema a semaforo:
 - Supporto multilingua: Italiano, Inglese, Spagnolo, Francese e Tedesco
 - Rilevamento automatico della lingua del dispositivo
 - Fallback automatico su Inglese se la lingua del telefono non è tra quelle supportate
-- Menu in alto a destra per cambiare lingua e aprire la privacy direttamente dall'app
+- Menu in vetro azzurro per cambiare lingua, aprire la privacy e consigliare l'app tramite il foglio di condivisione del dispositivo
+- Selettore lingua coordinato con bandiere e indicazione visiva della lingua attiva
 
 ### 6. Sistema Pubblicitario
 
@@ -392,7 +393,7 @@ Uso:
 
 ## Versione
 
-**Versione attuale:** 3.5.1+6
+**Versione attuale:** 3.5.2+6
 
 ## Localizzazione
 
