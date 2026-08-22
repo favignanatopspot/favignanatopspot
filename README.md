@@ -1,6 +1,6 @@
 # Favignana Top Spot
 
-![Version](https://img.shields.io/badge/version-3.5.2%2B6-blue.svg)
+![Version](https://img.shields.io/badge/version-3.5.3%2B7-blue.svg)
 ![Flutter](https://img.shields.io/badge/Flutter-3.0+-02569B.svg?logo=flutter)
 ![Platform](https://img.shields.io/badge/platform-Android%20%7C%20iOS-lightgrey.svg)
 
@@ -115,24 +115,17 @@ lib/
 
 ## Logica del Vento (Wind Engine)
 
-L'algoritmo in `wind_logic.dart` determina lo stato di ogni spiaggia:
+Il Wind Engine v2.9 in `wind_logic.dart` usa la differenza angolare reale tra vento ed esposizione dello spot:
 
-```dart
-// Vento debole (<= 6 km/h) = sempre VERDE
-// Altrimenti:
-// - Vento da TERRA (offshore > 130°) = VERDE fino a 28 km/h, GIALLO fino a 35 km/h
-// - Vento LATERALE/FRONTALE (<= 130°) = GIALLO fino a 18 km/h, ROSSO oltre
-// - Tetto ordinario: sopra 38 km/h sempre ROSSO
-// - South Shelter (Cala Azzurra, Lido Burrone, Grotta Perciata, Spiaggia Marasolo):
-//   N/NW/W = VERDE fino a 28 km/h, GIALLO fino a 40 km/h
-//   E/SE/S/SW = GIALLO fino a 25 km/h
-// - North Shelter (Spiaggia Praia):
-//   S/SE/SW = VERDE fino a 28 km/h, GIALLO fino a 40 km/h
-//   N/NE/NW = VERDE fino a 18 km/h, GIALLO fino a 28 km/h
-// - West Shelter (Cala Grande, Cala Rotonda, Punta Sottile):
-//   E/SE/NE/N = VERDE fino a 28 km/h, GIALLO fino a 40 km/h
-//   W/NW/SW/S = VERDE fino a 15 km/h, GIALLO fino a 25 km/h
-```
+- **Calma globale**: tutti gli spot sono verdi fino a 6 km/h.
+- **Frontale (`<= 45°`)**: verde fino a 6 km/h, giallo fino a 18 km/h e rosso oltre.
+- **Laterale (`> 45° e <= 130°`)**: verde fino a 9 km/h, giallo fino a 18 km/h e rosso oltre.
+- **Offshore (`> 130°`)**: verde fino a 28 km/h, giallo fino a 35 km/h e rosso oltre.
+- **South Shelter**: Cala Azzurra, Lido Burrone, Grotta Perciata, Spiaggia Marasolo e Cala Preveto. Con `N/NW/W` usa 28/40; con `E/SE/S/SW` mantiene il verde angolare 6/9 e il giallo fino a 25 km/h; `NE` non attiva eccezioni e ricade nella matrice angolare standard (il valore canonico di 45° è offshore).
+- **North Shelter - Spiaggia Praia**: con `S/SE/SW` usa 28/40; con `N/NE/NW` applica il bypass storico verde fino a 18 e giallo fino a 28 km/h; `W` è offshore ordinario.
+- **West Shelter**: Cala Grande, Cala Rotonda e Punta Sottile. Con `E/SE/NE/N` usa 28/40; con `W/NW/SW/S` mantiene il verde angolare 6/9 e il giallo fino a 25 km/h.
+
+La documentazione numerica completa e lo storico delle revisioni sono disponibili in `logica_spot.md`; il riepilogo operativo per gruppo è in `spot.md`.
 
 ### Rosa dei Venti Italiana
 
@@ -393,7 +386,7 @@ Uso:
 
 ## Versione
 
-**Versione attuale:** 3.5.2+6
+**Versione attuale:** 3.5.3+7
 
 ## Localizzazione
 
