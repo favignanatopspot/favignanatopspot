@@ -1,6 +1,6 @@
 # Favignana Top Spot
 
-![Version](https://img.shields.io/badge/version-3.5.3%2B7-blue.svg)
+![Version](https://img.shields.io/badge/version-3.6.1%2B8-blue.svg)
 ![Flutter](https://img.shields.io/badge/Flutter-3.0+-02569B.svg?logo=flutter)
 ![Platform](https://img.shields.io/badge/platform-Android%20%7C%20iOS-lightgrey.svg)
 
@@ -280,8 +280,8 @@ I colori degli spot in fallback sono quindi indicativi e non devono essere letti
 Per ridurre trasferimenti, tempi di attesa e consumo batteria:
 
 - i dati meteo vengono salvati in cache locale persistente con `shared_preferences`;
-- apertura app, timer e ritorno in primo piano usano la cache se l'ultima lettura meteo scaricata ha meno di 45 minuti;
-- il pulsante refresh manuale avvia una sincronizzazione effettiva solo se la cache ha più di 15 minuti e comunque non più di 2 volte in 1 ora per dispositivo;
+- apertura app, timer e ritorno in primo piano usano la cache se l'ultima lettura meteo scaricata ha meno di 20 minuti;
+- il pulsante refresh manuale avvia una sincronizzazione effettiva solo se la cache ha più di 15 minuti, rispettando almeno 15 minuti tra chiamate reali e un massimo di 4 chiamate in 1 ora per dispositivo;
 - i banner remoti vengono salvati in cache locale e ricontrollati solo al primo controllo, al cambio fascia oraria o dopo 6 ore;
 - meteo e banner sono caricati da servizi separati: un errore dei banner non blocca il calcolo degli spot.
 
@@ -386,7 +386,7 @@ Uso:
 
 ## Versione
 
-**Versione attuale:** 3.5.3+7
+**Versione attuale:** 3.6.1+8
 
 ## Localizzazione
 
